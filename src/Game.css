@@ -3,10 +3,6 @@ body {
     margin: 20px;
   }
   
-  ol, ul {
-    padding-left: 30px;
-  }
-  
   .board-row:after {
     clear: both;
     content: "";
@@ -49,3 +45,13 @@ body {
     margin-left: 20px;
   }
   
+
+  .reset {
+    background-color: white;
+    color: black;
+    border: 2px solid #4CAF50; /* Green */
+    margin: 10px;
+    width: 200px;
+    height: 40px;
+    font-size: 25px;
+  }
