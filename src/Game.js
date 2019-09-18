@@ -70,29 +70,28 @@ class Board extends React.Component {
                     default:
                 }
             }
-            console.log(lengthXY)
-            if (lengthX === 5 && (table[y * 20 + x + i - 6] !== "O" || table[y * 20 + x + i + 1] !== "O")) {
+            if (lengthX === 5 && (table[y * 20 + x + i - 5] !== "O" || table[y * 20 + x + i + 1] !== "O")) {               
                 return "X"
             }
-            if (lengthX === -5 && (table[y * 20 + x + i - 6] !== "X" || table[y * 20 + x + i + 1] !== "X")) {
+            if (lengthX === -5 && (table[y * 20 + x + i - 5] !== "X" || table[y * 20 + x + i + 1] !== "X")) {
                 return "O"
             }
-            if (lengthY === 5 && (table[(y + i - 6) * 20 + x] !== "O" && table[(y + i + 1) * 20 + x] !== "O")) {
+            if (lengthY === 5 && (table[(y + i - 5) * 20 + x] !== "O" || table[(y + i + 1) * 20 + x] !== "O")) {
                 return "X"
             }
-            if (lengthY === -5 && (table[(y + i - 6) * 20 + x] !== "X" && table[(y + i + 1) * 20 + x] !== "X")) {
+            if (lengthY === -5 && (table[(y + i - 5) * 20 + x] !== "X" || table[(y + i + 1) * 20 + x] !== "X")) {
                 return "O"
             }
-            if (lengthXY === 5 && (table[(y + i - 6) * 20 + x + i - 6] !== "O" || table[(y + i + 1) * 20 + x + i + 1] !== "O")) {
+            if (lengthXY === 5 && (table[(y + i - 5) * 20 + x + i - 5] !== "O" || table[(y + i + 1) * 20 + x + i + 1] !== "O")) {
                 return "X"
             }
-            if (lengthXY === -5 && (table[(y + i - 6) * 20 + x + i - 6] !== "X" || table[(y + i + 1) * 20 + x + i + 1] !== "X")) {
+            if (lengthXY === -5 && (table[(y + i - 5) * 20 + x + i - 5] !== "X" || table[(y + i + 1) * 20 + x + i + 1] !== "X")) {
                 return "O"
             }
-            if (lengthYX === 5 && (table[(y - i + 6) * 20 + x + i - 6] !== "O" || table[(y - i - 1) * 20 + x + i + 1] !== "O")) {
+            if (lengthYX === 5 && (table[(y - i + 5) * 20 + x + i - 5] !== "O" || table[(y - i - 1) * 20 + x + i + 1] !== "O")) {
                 return "X"
             }
-            if (lengthYX === -5 && (table[(y - i + 6) * 20 + x + i - 6] !== "X" || table[(y - i - 1) * 20 + x + i + 1] !== "X")) {
+            if (lengthYX === -5 && (table[(y - i + 5) * 20 + x + i - 5] !== "X" || table[(y - i - 1) * 20 + x + i + 1] !== "X")) {
                 return "O"
             }
         }
@@ -162,18 +161,18 @@ class Game extends React.Component {
 
     render() {
         return (
-                <header className="App-header">
-                    <div className="game-board">
-                        <Board />
-                    </div>
-                    <div className="game-info">
-                        <div>
-                            <button className="reset" onClick={this.refreshPage.bind(this)}>
-                                Chơi lại
+            <header className="App-header">
+                <div className="game-board">
+                    <Board />
+                </div>
+                <div className="game-info">
+                    <div>
+                        <button className="reset" onClick={this.refreshPage.bind(this)}>
+                            Chơi lại
                         </button>
-                        </div>
                     </div>
-                </header>
+                </div>
+            </header>
 
         );
     }
