@@ -46,12 +46,18 @@ body {
   }
   
 
-  .reset {
-    background-color: white;
-    color: black;
-    border: 2px solid #4CAF50; /* Green */
-    margin: 10px;
-    width: 200px;
-    height: 40px;
-    font-size: 25px;
-  }
+.reset {
+  background-color: white;
+  color: black;
+  border: 2px solid #4CAF50; /* Green */
+  margin: 10px;
+  width: 200px;
+  height: 40px;
+  font-size: 25px;
+}
+
+.win {
+  background-color: yellow;
+  color : red
+}
+
