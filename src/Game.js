@@ -4,7 +4,7 @@ import './App.css';
 
 class Square extends React.Component {
     render() {
-        var name = "square " + (this.props.red ? "win" : "")
+        var name = "square " + (this.props.color ? "win" : "")
         return (
             <button className={name} onClick={() => this.props.onClick()}>
                 {this.props.value}
@@ -14,103 +14,17 @@ class Square extends React.Component {
 }
 
 class Board extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            squares: Array(400).fill(null),
-            red: Array(400).fill(false),
-            xIsNext: true,
-            winer: null
-        }
-    }
     renderSquare(i) {
-        return <Square
-            red = {this.state.red[i]}
-            value={this.state.squares[i]}
-            onClick={() => this.handleClick(i)}
-        />;
-    }
-
-    isWinBy(table, x, y, vector) {
-        var red = this.state.red
-        var XO = table[y * 20 + x]
-        for (let i = 0; i < 5; i++) {
-            let sx = x - i * vector[0]
-            let sy = y - i * vector[1]
-            let flat = true
-            for (let j = 0; j < 5; j++) {
-                let X = sx + j * vector[0]
-                let Y = sy + j * vector[1]
-                if (X >= 20 || Y >= 20 || X < 0 || Y < 0 || table[Y * 20 + X] !== XO) {
-                    flat = false
-                    break
-                }
-            }
-            if (flat === true) {
-                var OX = null
-                if (XO === "O") {
-                    OX = "X"
-                } else if (XO === "X") {
-                    OX = "O"
-                }
-                if (table[(sy - vector[1]) * 20 + sx - vector[0]] !== OX || table[(sy + 5 * vector[1]) * 20 + sx + 5 * vector[0]] !== OX) {
-                    for (let j = 0; j < 5; j++) {
-                        let X = sx + j * vector[0]
-                        let Y = sy + j * vector[1]
-                        red[Y * 20 + X] = true
-                    }
-                    return XO
-                }
-            }
-        }
-        return null
-    }
-
-    isWin(table, x, y) {
-        var vector = [[1, 0], [0, 1], [1, 1], [1, -1]]
-
-        for (let i = 0; i < 4; i++) {
-            var XO = this.isWinBy(table, x, y, vector[i])
-            if (XO)
-                return XO
-        }
-        return null
-    }
-
-    handleClick(i) {
-        const squares = this.state.squares.slice();
-        if (squares[i] || this.state.winer)
-            return;
-        squares[i] = this.state.xIsNext ? 'X' : 'O';
-        this.setState({
-            squares: squares,
-            xIsNext: !this.state.xIsNext
-        });
-        switch (this.isWin(squares, i % 20, Math.floor(i / 20))) {
-            case "X":
-                this.setState({
-                    xIsNext: null,
-                    winer: "X"
-                })
-                break;
-            case "O":
-                this.setState({
-                    xIsNext: null,
-                    winer: "O"
-                })
-                break;
-            default:
-                break;
-        }
+        return (
+            <Square
+                value={this.props.squares[i]}
+                color={this.props.colors[i]}
+                onClick={() => this.props.onClick(i)}
+            />
+        );
     }
 
     render() {
-        let status;
-        if (this.state.xIsNext == null) {
-            status = this.state.winer + " wins"
-        } else {
-            status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-        }
         let table = []
         for (let i = 0; i < 20; i++) {
             var tmp = []
@@ -125,43 +39,142 @@ class Board extends React.Component {
         }
         return (
             <div>
-                <div className="status">{status}</div>
                 {table}
             </div>
         );
     }
 }
 
-
 class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             history: [{
-                squares: Array(9).fill(null),
+                squares: Array(400).fill(null),
+                colors: Array(400).fill(false),
+                newMove: null
             }],
-            xIsNext: true,
+            stepNumber: 0,
+            xIsNext: true
         };
     }
 
-    refreshPage() {
-        window.location.reload(false);
+    isWinBy(current, x, y, vector) {
+        var squares = current.squares
+        var colors = current.colors
+        var XO = squares[y * 20 + x]
+        if (!XO)
+            return
+        for (let i = 0; i < 5; i++) {
+            let sx = x - i * vector[0]
+            let sy = y - i * vector[1]
+            let flat = true
+            for (let j = 0; j < 5; j++) {
+                let X = sx + j * vector[0]
+                let Y = sy + j * vector[1]
+                if (X >= 20 || Y >= 20 || X < 0 || Y < 0 || squares[Y * 20 + X] !== XO) {
+                    flat = false
+                    break
+                }
+            }
+            if (flat === true) {
+                var OX = null
+                if (XO === "O") {
+                    OX = "X"
+                } else if (XO === "X") {
+                    OX = "O"
+                }
+                if (squares[(sy - vector[1]) * 20 + sx - vector[0]] !== OX || squares[(sy + 5 * vector[1]) * 20 + sx + 5 * vector[0]] !== OX) {
+                    for (let j = 0; j < 5; j++) {
+                        let X = sx + j * vector[0]
+                        let Y = sy + j * vector[1]
+                        colors[Y * 20 + X] = true
+                    }
+                    return XO
+                }
+            }
+        }
+        return null
+    }
+    
+    
+    calculateWinner(current) {
+        var i = current.newMove
+        var x = i % 20
+        var y = Math.floor(i / 20)
+        var vector = [[1, 0], [0, 1], [1, 1], [1, -1]]
+    
+        for (let i = 0; i < 4; i++) {
+            var XO = this.isWinBy(current, x, y, vector[i])
+            if (XO)
+                return XO
+        }
+        return null
     }
 
+    
+    handleClick(i) {
+        const history = this.state.history.slice(0, this.state.stepNumber + 1)
+        const current = history[history.length - 1];
+        const squares = current.squares.slice()
+
+        if (this.calculateWinner(current, i) || squares[i]) {
+            return;
+        }
+        squares[i] = this.state.xIsNext ? 'X' : 'O';
+        this.setState({
+            history: history.concat([{
+                squares: squares,
+                colors: current.colors,
+                newMove: i
+            }]),
+            stepNumber: history.length,
+            xIsNext: !this.state.xIsNext,
+        });
+    }
+
+    jumpTo(step) {
+        this.setState({
+          stepNumber: step,
+          xIsNext: (step % 2) === 0,
+        });
+      }
+
     render() {
+        const history = this.state.history;
+        const current = history[this.state.stepNumber];
+        const winner = this.calculateWinner(current);
+
+        const moves = history.map((step, move) => {
+            const desc = move ? ('Go to move #' + move) : 'Go to game start';
+            return (
+                <li key={move}>
+                    <button onClick={() => this.jumpTo(move)}>{desc}</button>
+                </li>
+            );
+        });
+
+        let status;
+        if (winner) {
+            status = 'Winner: ' + winner;
+        } else {
+            status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+        }
+
         return (
-            <header className="App-header">
+            <div className="game">
                 <div className="game-board">
-                    <Board />
+                    <Board
+                        squares={current.squares}
+                        colors={current.colors}
+                        onClick={(i) => this.handleClick(i)}
+                    />
                 </div>
                 <div className="game-info">
-                    <div>
-                        <button className="reset" onClick={this.refreshPage.bind(this)}>
-                            Chơi lại
-                        </button>
-                    </div>
+                    <div>{status}</div>
+                    <ol>{moves}</ol>
                 </div>
-            </header>
+            </div>
         );
     }
 }
