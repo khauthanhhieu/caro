@@ -51,17 +51,17 @@ class Game extends React.Component {
         this.state = {
             history: [{
                 squares: Array(400).fill(null),
-                colors: Array(400).fill(false),
                 newMove: null
             }],
             stepNumber: 0,
+            colors: Array(400).fill(false),
             xIsNext: true
         };
     }
 
     isWinBy(current, x, y, vector) {
         var squares = current.squares
-        var colors = current.colors
+        var colors = this.state.colors
         var XO = squares[y * 20 + x]
         if (!XO)
             return
@@ -125,7 +125,6 @@ class Game extends React.Component {
         this.setState({
             history: history.concat([{
                 squares: squares,
-                colors: current.colors,
                 newMove: i
             }]),
             stepNumber: history.length,
@@ -135,8 +134,9 @@ class Game extends React.Component {
 
     jumpTo(step) {
         this.setState({
-          stepNumber: step,
-          xIsNext: (step % 2) === 0,
+            stepNumber: step,
+            colors: Array(400).fill(false),
+            xIsNext: (step % 2) === 0,
         });
       }
 
@@ -166,7 +166,7 @@ class Game extends React.Component {
                 <div className="game-board">
                     <Board
                         squares={current.squares}
-                        colors={current.colors}
+                        colors={this.state.colors}
                         onClick={(i) => this.handleClick(i)}
                     />
                 </div>
