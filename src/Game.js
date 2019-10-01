@@ -138,18 +138,31 @@ class Game extends React.Component {
             colors: Array(400).fill(false),
             xIsNext: (step % 2) === 0,
         });
-      }
-
+    }
+    replay() {
+        this.setState({
+            history: [{
+                squares: Array(400).fill(null),
+                newMove: null
+            }],
+            stepNumber: 0,
+            colors: Array(400).fill(false),
+            xIsNext: true
+        })
+    }
     render() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
         const winner = this.calculateWinner(current);
-
+    
         const moves = history.map((step, move) => {
+            //console.log(history)
+            console.log(step, move)
             const desc = move ? ('Go to move #' + move) : 'Go to game start';
+            const cname = (move === this.state.stepNumber) ? "selected" : ""
             return (
                 <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{desc}</button>
+                    <button className={cname} onClick={() => this.jumpTo(move)}>{desc}</button>
                 </li>
             );
         });
@@ -170,6 +183,9 @@ class Game extends React.Component {
                         onClick={(i) => this.handleClick(i)}
                     />
                 </div>
+                <button onClick={this.replay.bind(this)}>
+                    Replay
+                </button>
                 <div className="game-info">
                     <div>{status}</div>
                     <ol>{moves}</ol>
