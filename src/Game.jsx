@@ -1,5 +1,3 @@
-/* eslint-disable react/no-access-state-in-setstate */
-/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import './Game.css';
 import Board from './Board';
