@@ -6,12 +6,20 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-scripts": "3.1.1"
+    
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run lint"
+    }
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -37,6 +45,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.15.0",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "husky": "^3.0.8",
     "prettier": "^1.18.2"
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
