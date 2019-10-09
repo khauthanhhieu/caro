@@ -1,13 +1,9 @@
 import {
-  PLACE, SET_PLAYER_TURN, RESET, SET_WINNER,
+  PLACE, RESET, SET_WINNER, JUMP_TO,
 } from './actionTypes';
 
 export function place(index) {
   return { type: PLACE, index };
-}
-
-export function setPlayerTurn(player) {
-  return { type: SET_PLAYER_TURN, player };
 }
 
 export function reset() {
@@ -16,4 +12,8 @@ export function reset() {
 
 export function setWinner(winner) {
   return { type: SET_WINNER, winner };
+}
+
+export function jumpTo(step) {
+  return { type: JUMP_TO, step };
 }

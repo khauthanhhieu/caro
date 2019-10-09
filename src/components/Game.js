@@ -1,27 +1,18 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable react/no-access-state-in-setstate */
 import React from 'react';
 import '../Game.css';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 import Board from './Board';
 
-
 class Game extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      history: [{
-        squares: Array(400).fill(null),
-        newMove: null,
-      }],
-      stepNumber: 0,
-      colors: Array(400).fill(false),
-      xIsNext: true,
-    };
-  }
-
   isWinBy(current, x, y, vector) {
     const { squares } = current;
-    const { colors } = this.state;
+    const { colors } = this.props;
     const XO = squares[y * 20 + x];
     if (!XO) {
       return null;
@@ -46,7 +37,7 @@ class Game extends React.Component {
           OX = 'O';
         }
         if (squares[(sy - vector[1]) * 20 + sx - vector[0]] !== OX
-            || squares[(sy + 5 * vector[1]) * 20 + sx + 5 * vector[0]] !== OX) {
+          || squares[(sy + 5 * vector[1]) * 20 + sx + 5 * vector[0]] !== OX) {
           for (let j = 0; j < 5; j += 1) {
             const X = sx + j * vector[0];
             const Y = sy + j * vector[1];
@@ -94,28 +85,8 @@ class Game extends React.Component {
     });
   }
 
-  jumpTo(step) {
-    this.setState({
-      stepNumber: step,
-      colors: Array(400).fill(false),
-      xIsNext: (step % 2) === 0,
-    });
-  }
-
-  replay() {
-    this.setState({
-      history: [{
-        squares: Array(400).fill(null),
-        newMove: null,
-      }],
-      stepNumber: 0,
-      colors: Array(400).fill(false),
-      xIsNext: true,
-    });
-  }
-
   render() {
-    const { history, stepNumber } = this.state;
+    const { history, stepNumber } = this.props;
     const current = history[stepNumber];
     const winner = this.calculateWinner(current);
 
@@ -124,13 +95,13 @@ class Game extends React.Component {
       const cname = (move === stepNumber) ? 'selected' : '';
       return (
         <li key={move.id}>
-          <button type="button" className={cname} onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button type="button" className={cname} onClick={() => this.props.onJump(move)}>{desc}</button>
         </li>
       );
     });
 
     let status;
-    const { xIsNext, colors } = this.state;
+    const { xIsNext, colors } = this.props;
     if (winner) {
       status = `Winner: ${winner}`;
     } else {
@@ -143,11 +114,11 @@ class Game extends React.Component {
           <Board
             squares={current.squares}
             colors={colors}
-            onClick={(i) => this.handleClick(i)}
+            onClick={(i) => this.props.onPlace(i)}
           />
         </div>
-        <button type="button" onClick={this.replay.bind(this)}>
-                    Replay
+        <button type="button" onClick={this.props.onReset.bind(this)}>
+          Replay
         </button>
         <div className="game-info">
           <div>{status}</div>
@@ -158,4 +129,19 @@ class Game extends React.Component {
   }
 }
 
-export default Game;
+const mapStateToProps = (state) => ({
+  history: state.game.history,
+  stepNumber: state.game.stepNumber,
+  colors: state.game.colors,
+  xIsNext: state.game.xIsNext,
+});
+
+const mapDispatchToProps = (dispatch, state) => ({
+  onPlace: (index) => {
+    dispatch(actions.place(index));
+  },
+  onReset: () => dispatch(actions.reset()),
+  onJump: (step) => dispatch(actions.jumpTo(step)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
