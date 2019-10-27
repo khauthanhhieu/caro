@@ -1,8 +1,9 @@
+/* eslint-disable react/prefer-stateless-function */
+/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { Provider } from 'react-redux';
 import {
   BrowserRouter as Router,
-  Switch,
   Route,
   Link,
 } from 'react-router-dom';
@@ -11,8 +12,8 @@ import Game from './Game';
 
 function Home() {
   return (
-    <Provider store={store}> 
-      <Game /> 
+    <Provider store={store}>
+      <Game />
     </Provider>
   );
 }
