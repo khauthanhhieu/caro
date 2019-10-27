@@ -64,7 +64,6 @@ class Game extends React.Component {
     return null;
   }
 
-
   handleClick(i) {
     const { state } = this;
     const history = state.history.slice(0, state.stepNumber + 1);
