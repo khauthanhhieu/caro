@@ -1,5 +1,4 @@
 /* eslint-disable react/prefer-stateless-function */
-/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
@@ -8,10 +7,8 @@ import {
   Route,
   Link,
 } from 'react-router-dom';
-import store from '../store';
-import Game from './Game';
-import Login from './Login';
-import Register from './Register';
+import store from './store';
+import { Game, Login, Register } from './components';
 
 function Home() {
   return (

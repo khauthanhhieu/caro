@@ -1,5 +1,3 @@
-// export * from './App';
-// export * from './Board';
-// export Game from './Game';
-// export * from './Login';
-// export * from './Register';
+export { default as Game } from './Game';
+export { default as Login } from './Login';
+export { default as Register } from './Register';

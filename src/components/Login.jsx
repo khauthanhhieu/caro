@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-filename-extension */
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import {
@@ -10,7 +9,7 @@ class Login extends React.Component {
     return (
       <Container>
         <Col md={{ span: 6, offset: 3 }}>
-          <h1>Login</h1>
+          <h1>Đăng nhập</h1>
           <div>
             <Form>
               <Form.Label>Tên người dùng : </Form.Label>

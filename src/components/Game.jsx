@@ -2,11 +2,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
-/* eslint-disable react/jsx-filename-extension */
 /* eslint-disable react/no-access-state-in-setstate */
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import '../Game.css';
+import './Game.css';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import Board from './Board';

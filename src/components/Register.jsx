@@ -1,8 +1,7 @@
-/* eslint-disable react/jsx-filename-extension */
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import {
-  Button, Form, Container, Col,
+  Button, Form, Container, Col, Alert,
 } from 'react-bootstrap';
 
 class Register extends React.Component {
@@ -10,7 +9,7 @@ class Register extends React.Component {
     return (
       <Container>
         <Col md={{ span: 6, offset: 3 }}>
-          <h1>Login</h1>
+          <h1>Tạo tài khoản</h1>
           <Form>
             <Form.Group>
               <Form.Label>Họ và tên</Form.Label>
@@ -30,6 +29,10 @@ class Register extends React.Component {
             </Form.Group>
             <Form.Group>
               <Button>Đăng kí</Button>
+              <Alert color="primary">
+                Bạn đã có tài khoản ?
+                <Alert.Link href="/login"> Đăng nhập ngay </Alert.Link>
+              </Alert>
             </Form.Group>
           </Form>
         </Col>
