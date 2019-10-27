@@ -1,9 +1,11 @@
+/* eslint-disable react/jsx-no-bind */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable react/no-access-state-in-setstate */
 import React from 'react';
+import { Button } from 'react-bootstrap';
 import '../Game.css';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
@@ -94,7 +96,7 @@ class Game extends React.Component {
       const cname = (move === stepNumber) ? 'selected' : '';
       return (
         <li key={move.id}>
-          <button type="button" className={cname} onClick={() => this.props.onJump(move)}>{desc}</button>
+          <Button type="button" className={cname} onClick={() => this.props.onJump(move)}>{desc}</Button>
         </li>
       );
     });
@@ -116,9 +118,9 @@ class Game extends React.Component {
             onClick={(i) => this.props.onPlace(i)}
           />
         </div>
-        <button type="button" onClick={this.props.onReset.bind(this)}>
+        <Button type="button" onClick={this.props.onReset.bind(this)}>
           Replay
-        </button>
+        </Button>
         <div className="game-info">
           <div>{status}</div>
           <ol>{moves}</ol>

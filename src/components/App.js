@@ -1,6 +1,7 @@
 /* eslint-disable react/prefer-stateless-function */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
 import {
   BrowserRouter as Router,
@@ -9,6 +10,8 @@ import {
 } from 'react-router-dom';
 import store from '../store';
 import Game from './Game';
+import Login from './Login';
+import Register from './Register';
 
 function Home() {
   return (
@@ -29,8 +32,8 @@ function Logout() {
 class App extends React.Component {
   render() {
     return (
-      <Router>
-        <div>
+      <div>
+        <Router>
           <ul>
             <li>
               <Link to="/">Home</Link>
@@ -42,15 +45,25 @@ class App extends React.Component {
               <Link to="/logout">Logout</Link>
             </li>
           </ul>
-
           <hr />
           <div className="main-route-place">
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
+            <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
+            <Route path="/register" component={Register} />
           </div>
-        </div>
-      </Router>
+        </Router>
+        <hr />
+        <footer className="footer py-3 bg-dark text-white">
+          <div className="container">
+            <div className="col-sm">
+              <h4>Đồ án giữa kì Web</h4>
+              <p>1612197 - Khâu Thanh Hiếu</p>
+            </div>
+          </div>
+        </footer>
+      </div>
     );
   }
 }
