@@ -19,5 +19,17 @@ export function jumpTo(step) {
 }
 
 export function login(username, password) {
-  return { type: LOGIN, username, password };
+  return async (dispatch) => {
+    const token = await fetch('/api/user/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    }).then((res) => res.json()).then((result) => result.token);
+    dispatch({ type: LOGIN, token });
+  };
 }

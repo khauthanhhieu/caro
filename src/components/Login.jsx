@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import {
   Button, Form, Alert, Container, Col,
@@ -15,6 +16,7 @@ class Login extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
+    // eslint-disable-next-line react/prop-types
     this.props.onLogin(data.get('username'), data.get('password'));
   }
 
@@ -44,9 +46,10 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  authed: state.auth.authed,
 });
 
-const mapDispatchToProps = (dispatch, state) => ({
+const mapDispatchToProps = (dispatch) => ({
   onLogin: (username, password) => dispatch(actions.login(username, password)),
 });
 

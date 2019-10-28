@@ -1,5 +1,7 @@
 /* eslint-disable import/no-unresolved */
-import { createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
+import thunk from 'redux-thunk';
 import AppReducer from '../reducers';
 
-export default createStore(AppReducer);
+const middlewares = [thunk];
+export default createStore(AppReducer, applyMiddleware(...middlewares));
