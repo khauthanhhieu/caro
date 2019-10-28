@@ -17,7 +17,9 @@ class Login extends React.Component {
     event.preventDefault();
     const data = new FormData(event.target);
     // eslint-disable-next-line react/prop-types
-    this.props.onLogin(data.get('username'), data.get('password'));
+    this.props.onLogin(data.get('username'), data.get('password')).then(() => {
+      this.props.history.push('/');
+    });
   }
 
   render() {
@@ -34,6 +36,7 @@ class Login extends React.Component {
               <Form.Label>Mật khẩu : </Form.Label>
               <Form.Control id="password" name="password" type="password" />
             </Form.Group>
+            <Alert show={this.props.mess !== undefined} variant="">{ this.props.mess }</Alert>
             <Form.Group>
               <Button variant="primary" type="submit">Đăng nhập</Button>
               <Alert.Link href="/register">Đăng kí</Alert.Link>
@@ -47,6 +50,7 @@ class Login extends React.Component {
 
 const mapStateToProps = (state) => ({
   authed: state.auth.authed,
+  mess: state.auth.mess,
 });
 
 const mapDispatchToProps = (dispatch) => ({

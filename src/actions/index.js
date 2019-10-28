@@ -20,7 +20,7 @@ export function jumpTo(step) {
 
 export function login(username, password) {
   return async (dispatch) => {
-    const token = await fetch('/api/user/login', {
+    const result = await fetch('/api/user/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -29,7 +29,13 @@ export function login(username, password) {
         username,
         password,
       }),
-    }).then((res) => res.json()).then((result) => result.token);
-    dispatch({ type: LOGIN, token });
+    }).then((res) => res.json());
+    let mess = '';
+    if (result.isSuccess === true) {
+      mess = undefined;
+    } else {
+      mess = 'Tên đăng nhập hoặc mật khẩu không đúng !';
+    }
+    dispatch({ type: LOGIN, mess, token: result.token });
   };
 }
