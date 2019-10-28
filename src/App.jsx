@@ -12,9 +12,7 @@ import { Game, Login, Register } from './components';
 
 function Home() {
   return (
-    <Provider store={store}>
-      <Game />
-    </Provider>
+    <Game />
   );
 }
 
@@ -43,13 +41,15 @@ class App extends React.Component {
             </li>
           </ul>
           <hr />
-          <div className="main-route-place">
-            <Route exact path="/" component={Home} />
-            <Route path="/about" component={About} />
-            <Route path="/login" component={Login} />
-            <Route path="/logout" component={Logout} />
-            <Route path="/register" component={Register} />
-          </div>
+          <Provider store={store}>
+            <div className="main-route-place">
+              <Route exact path="/" component={Home} />
+              <Route path="/about" component={About} />
+              <Route path="/login" component={Login} />
+              <Route path="/logout" component={Logout} />
+              <Route path="/register" component={Register} />
+            </div>
+          </Provider>
         </Router>
         <hr />
         <footer className="footer py-3 bg-dark text-white">

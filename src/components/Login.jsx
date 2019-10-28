@@ -1,9 +1,9 @@
-/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import {
   Button, Form, Alert, Container, Col,
 } from 'react-bootstrap';
-// import * as actions from '../actions';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class Login extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
-    console.log(data);
+    this.props.onLogin(data.get('username'), data.get('password'));
   }
 
   render() {
@@ -23,24 +23,31 @@ class Login extends React.Component {
       <Container>
         <Col md={{ span: 6, offset: 3 }}>
           <h1>Đăng nhập</h1>
-          <div>
-            <Form onSubmit={this.handleSubmit}>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group>
               <Form.Label>Tên người dùng : </Form.Label>
-              <Form.Control type="text" />
-            </Form>
-            <Form>
+              <Form.Control id="username" name="username" type="text" />
+            </Form.Group>
+            <Form.Group>
               <Form.Label>Mật khẩu : </Form.Label>
-              <Form.Control type="password" />
-            </Form>
-            <Form>
+              <Form.Control id="password" name="password" type="password" />
+            </Form.Group>
+            <Form.Group>
               <Button variant="primary" type="submit">Đăng nhập</Button>
               <Alert.Link href="/register">Đăng kí</Alert.Link>
-            </Form>
-          </div>
+            </Form.Group>
+          </Form>
         </Col>
       </Container>
     );
   }
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+});
+
+const mapDispatchToProps = (dispatch, state) => ({
+  onLogin: (username, password) => dispatch(actions.login(username, password)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

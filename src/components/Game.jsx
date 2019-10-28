@@ -137,9 +137,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch, state) => ({
-  onPlace: (index) => {
-    dispatch(actions.place(index));
-  },
+  onPlace: (index) => dispatch(actions.place(index)),
   onReset: () => dispatch(actions.reset()),
   onJump: (step) => dispatch(actions.jumpTo(step)),
 });
