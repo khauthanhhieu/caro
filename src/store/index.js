@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
 import { createStore } from 'redux';
-import gameReducer from '../reducers';
+import AppReducer from '../reducers';
 
-export default createStore(gameReducer);
+export default createStore(AppReducer);

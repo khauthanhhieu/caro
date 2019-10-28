@@ -1,3 +1,5 @@
+export const LOGIN = 'LOGIN';
+
 export const PLACE = 'PLACE';
 export const RESET = 'RESET';
 export const SET_WINNER = 'SET_WINNER';

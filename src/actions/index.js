@@ -1,5 +1,5 @@
 import {
-  PLACE, RESET, SET_WINNER, JUMP_TO,
+  PLACE, RESET, SET_WINNER, JUMP_TO, LOGIN,
 } from './actionTypes';
 
 export function place(index) {
@@ -16,4 +16,8 @@ export function setWinner(winner) {
 
 export function jumpTo(step) {
   return { type: JUMP_TO, step };
+}
+
+export function login(username, password) {
+  return { type: LOGIN, username, password };
 }
