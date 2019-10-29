@@ -7,10 +7,21 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 class Register extends React.Component {
+  constructor(prop) {
+    super(prop);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
   handleSubmit(event) {
     event.preventDefault();
-    // const data = new FormData(event.target);
-    this.props.onRegister();
+    const data = new FormData(event.target);
+    const user = {
+      fullname: data.get('fullname'),
+      email: data.get('email'),
+      username: data.get('username'),
+      password: data.get('password'),
+    };
+    this.props.onRegister(user);
   }
 
   render() {
@@ -21,22 +32,27 @@ class Register extends React.Component {
           <Form onSubmit={this.handleSubmit}>
             <Form.Group>
               <Form.Label>Họ và tên</Form.Label>
-              <Form.Control type="text" />
+              <Form.Control id="fullname" name="fullname" type="text" />
             </Form.Group>
             <Form.Group>
               <Form.Label>E-mail</Form.Label>
-              <Form.Control type="email" />
+              <Form.Control id="email" name="email" type="email" />
             </Form.Group>
             <Form.Group>
               <Form.Label>Tên người dùng</Form.Label>
-              <Form.Control type="text" />
+              <Form.Control id="username" name="username" type="text" />
+              <Alert show={this.props.mess !== undefined} variant="warning">{ this.props.mess }</Alert>
             </Form.Group>
             <Form.Group>
               <Form.Label>Mật khẩu</Form.Label>
-              <Form.Control type="password" />
+              <Form.Control id="password" name="password" type="password" />
             </Form.Group>
             <Form.Group>
-              <Button>Đăng kí</Button>
+              <Form.Label>Nhập lại mật khẩu</Form.Label>
+              <Form.Control id="repassword" name="repassword" type="password" />
+            </Form.Group>
+            <Form.Group>
+              <Button type="submit">Đăng kí</Button>
               <Alert color="primary">
                 Bạn đã có tài khoản ?
                 <Alert.Link href="/login"> Đăng nhập ngay </Alert.Link>
@@ -49,11 +65,12 @@ class Register extends React.Component {
   }
 }
 
-const mapStateToProps = () => ({
+const mapStateToProps = (state) => ({
+  mess: state.auth.mess,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onRegister: () => dispatch(actions.register()),
+  onRegister: (user) => dispatch(actions.register(user)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

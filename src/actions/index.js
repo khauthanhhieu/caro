@@ -46,6 +46,15 @@ export function logout() {
   return { type: LOGOUT };
 }
 
-export function register() {
-  return { type: REGISTER };
+export function register(user) {
+  return async (dispatch) => {
+    const result = await fetch('/api/user/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    }).then((res) => res.json());
+    dispatch({ type: REGISTER, mess: result.mess });
+  };
 }
