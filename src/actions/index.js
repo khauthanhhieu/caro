@@ -1,5 +1,5 @@
 import {
-  PLACE, RESET, SET_WINNER, JUMP_TO, LOGIN,
+  PLACE, RESET, SET_WINNER, JUMP_TO, LOGIN, LOGOUT,
 } from './actionTypes';
 
 export function place(index) {
@@ -38,4 +38,8 @@ export function login(username, password) {
     }
     dispatch({ type: LOGIN, mess, token: result.token });
   };
+}
+
+export function logout() {
+  return { type: LOGOUT };
 }

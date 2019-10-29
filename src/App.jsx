@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import Cookies from 'js-cookie';
 import { Game, Login, Register } from './components';
 import PrivateRoute from './helper/PrivateRoute';
+import * as actions from './actions';
 
 function About() {
   return <h2>About</h2>;
@@ -19,6 +20,7 @@ function About() {
 
 function Logout() {
   Cookies.remove('access_token');
+  this.props.logout();
   return <Redirect to="/login" />;
 }
 
@@ -70,6 +72,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  onLogout: () => dispatch(actions.logout()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
