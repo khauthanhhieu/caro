@@ -6,22 +6,16 @@ import {
   BrowserRouter as Router,
   Route,
   Link,
-  Redirect,
 } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Cookies from 'js-cookie';
-import { Game, Login, Register } from './components';
+import {
+  Game, Login, Logout, Register,
+} from './components';
 import PrivateRoute from './helper/PrivateRoute';
 import * as actions from './actions';
 
 function About() {
   return <h2>About</h2>;
-}
-
-function Logout() {
-  Cookies.remove('access_token');
-  this.props.logout();
-  return <Redirect to="/login" />;
 }
 
 class App extends React.Component {
@@ -46,7 +40,7 @@ class App extends React.Component {
           </ul>
           <hr />
           <div className="main-route-place">
-            <PrivateRoute path="/" component={Game} />
+            <PrivateRoute exact path="/" component={Game} />
             <Route path="/about" component={About} />
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />

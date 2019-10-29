@@ -3,14 +3,22 @@ import React from 'react';
 import {
   Button, Form, Container, Col, Alert,
 } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 
 class Register extends React.Component {
+  handleSubmit(event) {
+    event.preventDefault();
+    // const data = new FormData(event.target);
+    this.props.onRegister();
+  }
+
   render() {
     return (
       <Container>
         <Col md={{ span: 6, offset: 3 }}>
           <h1>Tạo tài khoản</h1>
-          <Form>
+          <Form onSubmit={this.handleSubmit}>
             <Form.Group>
               <Form.Label>Họ và tên</Form.Label>
               <Form.Control type="text" />
@@ -41,4 +49,11 @@ class Register extends React.Component {
   }
 }
 
-export default Register;
+const mapStateToProps = () => ({
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onRegister: () => dispatch(actions.register()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

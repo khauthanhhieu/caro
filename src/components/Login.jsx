@@ -9,7 +9,6 @@ import * as actions from '../actions';
 class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.state = [];
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -36,7 +35,7 @@ class Login extends React.Component {
               <Form.Label>Mật khẩu : </Form.Label>
               <Form.Control id="password" name="password" type="password" />
             </Form.Group>
-            <Alert show={this.props.mess !== undefined} variant="">{ this.props.mess }</Alert>
+            <Alert show={this.props.mess !== undefined} variant="warning">{ this.props.mess }</Alert>
             <Form.Group>
               <Button variant="primary" type="submit">Đăng nhập</Button>
               <Alert.Link href="/register">Đăng kí</Alert.Link>

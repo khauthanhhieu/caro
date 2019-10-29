@@ -1,5 +1,6 @@
+import Cookies from 'js-cookie';
 import {
-  PLACE, RESET, SET_WINNER, JUMP_TO, LOGIN, LOGOUT,
+  PLACE, RESET, SET_WINNER, JUMP_TO, LOGIN, LOGOUT, REGISTER,
 } from './actionTypes';
 
 export function place(index) {
@@ -41,5 +42,10 @@ export function login(username, password) {
 }
 
 export function logout() {
+  Cookies.remove('access_token');
   return { type: LOGOUT };
+}
+
+export function register() {
+  return { type: REGISTER };
 }
