@@ -1,8 +1,8 @@
 import React from 'react';
 import {
-  Navbar, NavDropdown, Form, Nav, FormControl, Button, NavItem,
+  Navbar, NavDropdown, Form, Nav, FormControl, Button,
 } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 class Header extends React.Component {
@@ -21,16 +21,14 @@ class Header extends React.Component {
             <Button variant="light">Tìm kiếm</Button>
           </Form>
           <Nav className="col-sm-3">
-            <LinkContainer to="/">
-              <NavItem eventKey={1}>Trang chủ</NavItem>
-            </LinkContainer>
-            <Nav.Link href="/about">Giới thiệu</Nav.Link>
+            <Nav.Link as={Link} to="/">Trang Chủ</Nav.Link>
+            <Nav.Link as={Link} to="/about">Giới thiệu</Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Cài đặt</NavDropdown.Item>
-              <NavDropdown.Item href="/info">Thông tin cá nhân</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/info">Thông tin cá nhân</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="/logout">Đăng xuất</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/logout">Đăng xuất</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

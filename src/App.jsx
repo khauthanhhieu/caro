@@ -3,8 +3,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
-  BrowserRouter as Router,
-  Route,
+  Route, BrowserRouter as Router,
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
@@ -21,8 +20,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header />
         <Router>
+          <Header />
           <hr />
           <div className="main-route-place">
             <PrivateRoute exact path="/" component={Game} />
