@@ -3,6 +3,7 @@ import { LOGIN, LOGOUT, REGISTER } from '../actions/actionTypes';
 const initialState = {
   mess: undefined,
   authed: false,
+  user: undefined,
 };
 
 function auth(state = initialState, actions) {
@@ -12,12 +13,14 @@ function auth(state = initialState, actions) {
         ...state,
         mess: actions.mess,
         authed: (actions.token !== undefined),
+        user: actions.user,
       };
     case LOGOUT:
       return {
         ...state,
         mess: undefined,
         authed: false,
+        user: undefined,
       };
     case REGISTER:
       return {

@@ -50,6 +50,7 @@ class Login extends React.Component {
 const mapStateToProps = (state) => ({
   authed: state.auth.authed,
   mess: state.auth.mess,
+  user: state.auth.user,
 });
 
 const mapDispatchToProps = (dispatch) => ({

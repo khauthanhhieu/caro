@@ -5,11 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   BrowserRouter as Router,
   Route,
-  Link,
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
-  Game, Login, Logout, Register,
+  Game, Login, Logout, Register, Header,
 } from './components';
 import PrivateRoute from './helper/PrivateRoute';
 import * as actions from './actions';
@@ -20,24 +19,10 @@ function About() {
 
 class App extends React.Component {
   render() {
-    let sttHeader = '';
-    if (this.props.authed === false) {
-      sttHeader = 'hide';
-    }
     return (
       <div>
+        <Header />
         <Router>
-          <ul className={sttHeader}>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/logout">Logout</Link>
-            </li>
-          </ul>
           <hr />
           <div className="main-route-place">
             <PrivateRoute exact path="/" component={Game} />
@@ -45,6 +30,7 @@ class App extends React.Component {
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
             <Route path="/register" component={Register} />
+            {/* <PrivateRoute path="/info" component={Info} /> */}
           </div>
         </Router>
         <hr />

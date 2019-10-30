@@ -32,12 +32,21 @@ export function login(username, password) {
       }),
     }).then((res) => res.json());
     let mess = '';
+    let user;
     if (result.isSuccess === true) {
       mess = undefined;
+      user = await fetch('/api/me', {
+        method: 'GET',
+        headers: {
+          token: result.token,
+        },
+      }).then((res) => res.json()).then((data) => data.user);
     } else {
       mess = 'Tên đăng nhập hoặc mật khẩu không đúng !';
     }
-    dispatch({ type: LOGIN, mess, token: result.token });
+    dispatch({
+      type: LOGIN, mess, token: result.token, user,
+    });
   };
 }
 
