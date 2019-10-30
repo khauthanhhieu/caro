@@ -7,6 +7,7 @@ import * as actions from '../actions';
 
 class Info extends React.Component {
   render() {
+    const { user } = this.props;
     return (
       <Container>
         <Col md={{ span: 10, offset: 1 }}>
@@ -14,25 +15,25 @@ class Info extends React.Component {
           <hr />
           <Row>
             <Col><h5>Họ và tên</h5></Col>
-            <Col><p>abc</p></Col>
+            <Col><p>{user.fullname}</p></Col>
             <Col><Alert.Link>Chỉnh sửa</Alert.Link></Col>
           </Row>
           <hr />
           <Row>
             <Col><h5>Email</h5></Col>
-            <Col><p>Khâu Thanh Hiếu</p></Col>
+            <Col><p>{user.email}</p></Col>
             <Col><Alert.Link>Chỉnh sửa</Alert.Link></Col>
           </Row>
           <hr />
           <Row>
             <Col><h5>Tên đăng nhập</h5></Col>
-            <Col><p>Khâu Thanh Hiếu</p></Col>
+            <Col><p>{user.username}</p></Col>
             <Col><Alert.Link>Chỉnh sửa</Alert.Link></Col>
           </Row>
           <hr />
           <Row>
             <Col><h5>Mật khẩu</h5></Col>
-            <Col><p>Khâu Thanh Hiếu</p></Col>
+            <Col><p></p></Col>
             <Col><Alert.Link>Chỉnh sửa</Alert.Link></Col>
           </Row>
         </Col>
