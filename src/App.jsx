@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
-  Game, Login, Logout, Register, Header,
+  Game, Login, Logout, Register, Header, Info,
 } from './components';
 import PrivateRoute from './helper/PrivateRoute';
 import * as actions from './actions';
@@ -30,7 +30,7 @@ class App extends React.Component {
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
             <Route path="/register" component={Register} />
-            {/* <PrivateRoute path="/info" component={Info} /> */}
+            <PrivateRoute path="/info" component={Info} />
           </div>
         </Router>
         <hr />
