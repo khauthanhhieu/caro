@@ -41,7 +41,7 @@ class Register extends React.Component {
             <Form.Group>
               <Form.Label>Tên người dùng</Form.Label>
               <Form.Control id="username" name="username" type="text" />
-              <Alert show={this.props.mess !== undefined} variant="warning">{ this.props.mess }</Alert>
+              <Form.Text show={this.props.mess !== undefined}>{ this.props.mess }</Form.Text>
             </Form.Group>
             <Form.Group>
               <Form.Label>Mật khẩu</Form.Label>

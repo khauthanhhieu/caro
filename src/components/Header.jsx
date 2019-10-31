@@ -13,7 +13,7 @@ class Header extends React.Component {
   render() {
     return (
       <Navbar bg="primary" variant="dark">
-        <Navbar.Brand href="#home">Cờ caro</Navbar.Brand>
+        <Navbar.Brand href="/">Cờ caro</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Form inline className="mr-auto offset-md-1">
