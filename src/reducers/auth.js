@@ -1,4 +1,6 @@
-import { LOGIN, LOGOUT, REGISTER } from '../actions/actionTypes';
+import {
+  LOGIN, LOGOUT, REGISTER, LOAD_PROPS,
+} from '../actions/actionTypes';
 
 const initialState = {
   mess: undefined,
@@ -26,6 +28,12 @@ function auth(state = initialState, actions) {
       return {
         ...state,
         mess: actions.mess,
+      };
+    case LOAD_PROPS:
+      return {
+        ...state,
+        authed: true,
+        user: actions.user,
       };
     default:
       return state;

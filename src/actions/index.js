@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import {
-  PLACE, RESET, SET_WINNER, JUMP_TO, LOGIN, LOGOUT, REGISTER,
+  PLACE, RESET, SET_WINNER, JUMP_TO, LOGIN, LOGOUT, REGISTER, EDIT, LOAD_PROPS,
 } from './actionTypes';
 
 export function place(index) {
@@ -44,6 +44,7 @@ export function login(username, password) {
     } else {
       mess = 'Tên đăng nhập hoặc mật khẩu không đúng !';
     }
+    user.password = undefined;
     dispatch({
       type: LOGIN, mess, token: result.token, user,
     });
@@ -66,4 +67,12 @@ export function register(user) {
     }).then((res) => res.json());
     dispatch({ type: REGISTER, mess: result.mess });
   };
+}
+
+export function edit(data) {
+  return { type: EDIT, data };
+}
+
+export function loadProps(user) {
+  return { type: LOAD_PROPS, user };
 }

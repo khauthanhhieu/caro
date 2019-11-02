@@ -1,7 +1,6 @@
 /* eslint-disable react/prefer-stateless-function */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable no-useless-constructor */
 import React from 'react';
 import {
   Container, Col, Row, Form, Button,
@@ -14,7 +13,14 @@ import * as actions from '../actions';
 class Info extends React.Component {
   constructor(props) {
     super(props);
+    // this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+
+  // handleSubmit(event) {
+  //   event.preventDefault();
+  //   const data = new FormData(event.target);
+  // }
 
   render() {
     const values = queryString.parse(this.props.location.search);
@@ -32,7 +38,7 @@ class Info extends React.Component {
                 (edit === 'fullname') ? (
                   <Form>
                     <Row>
-                      <Col><Form.Control type="text"></Form.Control></Col>
+                      <Col><Form.Control value={this.props.user.fullname} type="text"></Form.Control></Col>
                       <Col><Button type="submit">Lưu</Button></Col>
                     </Row>
                   </Form>
@@ -53,9 +59,9 @@ class Info extends React.Component {
             <Col>
               {
                 (edit === 'email') ? (
-                  <Form>
+                  <Form onSubmit={this.handleSubmit}>
                     <Row>
-                      <Col><Form.Control type="text"></Form.Control></Col>
+                      <Col><Form.Control value={this.props.user.email} type="text"></Form.Control></Col>
                       <Col><Button type="submit">Lưu</Button></Col>
                     </Row>
                   </Form>
@@ -78,7 +84,7 @@ class Info extends React.Component {
                 (edit === 'username') ? (
                   <Form>
                     <Row>
-                      <Col><Form.Control type="text"></Form.Control></Col>
+                      <Col><Form.Control value={this.props.user.username} type="text"></Form.Control></Col>
                       <Col><Button type="submit">Lưu</Button></Col>
                     </Row>
                   </Form>
@@ -134,7 +140,8 @@ const mapStateToProps = (state) => ({
   user: state.auth.user,
 });
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = (dispatch) => ({
+  onEdit: (data) => dispatch(actions.edit(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Info);

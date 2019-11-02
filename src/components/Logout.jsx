@@ -9,6 +9,7 @@ class Logout extends React.Component {
   constructor(props) {
     super(props);
     Cookies.remove('access-token');
+    localStorage.removeItem('user');
     this.props.onLogout();
   }
 
