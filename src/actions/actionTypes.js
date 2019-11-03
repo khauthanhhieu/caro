@@ -9,3 +9,4 @@ export const JUMP_TO = 'JUMP_TO';
 export const EDIT = 'EDIT';
 export const LOAD_PROPS = 'LOAD_PROPS';
 export const CHECK = 'CHECK';
+export const INIT_MESS = 'INIT_MESS';

@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import {
-  PLACE, RESET, SET_WINNER, JUMP_TO, LOGIN, LOGOUT, REGISTER, EDIT, LOAD_PROPS, CHECK,
+  PLACE, RESET, SET_WINNER, JUMP_TO, LOGIN, LOGOUT, REGISTER, EDIT, LOAD_PROPS, CHECK, INIT_MESS,
 } from './actionTypes';
 
 export function place(index) {
@@ -101,4 +101,8 @@ export function check(username) {
     }).then((res) => res.json());
     dispatch({ type: CHECK, mess: result.mess });
   };
+}
+
+export function initMess() {
+  return { type: INIT_MESS };
 }

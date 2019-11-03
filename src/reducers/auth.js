@@ -1,5 +1,5 @@
 import {
-  LOGIN, LOGOUT, REGISTER, LOAD_PROPS, CHECK,
+  LOGIN, LOGOUT, REGISTER, LOAD_PROPS, CHECK, INIT_MESS,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -39,6 +39,11 @@ function auth(state = initialState, actions) {
       return {
         ...state,
         mess: actions.mess,
+      };
+    case INIT_MESS:
+      return {
+        ...state,
+        mess: undefined,
       };
     default:
       return state;

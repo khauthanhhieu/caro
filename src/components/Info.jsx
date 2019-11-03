@@ -20,8 +20,12 @@ class Info extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      mess_repassword: undefined,
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   updatePropsByLocal() {
@@ -29,17 +33,35 @@ class Info extends React.Component {
     this.props.updateUser(user);
   }
 
+  handleCancel(event) {
+    event.preventDefault();
+    this.props.initMess();
+    this.setState({ mess_repassword: undefined });
+    this.props.history.push('/info');
+  }
+
   handleSubmit(event) {
     event.preventDefault();
+    if (this.props.mess) {
+      return;
+    }
     const data = new FormData(event.target);
     const prop = event.target.name;
 
     const change = { [prop]: data.get(prop) };
     if (prop !== 'password') {
       this.props.onEdit(change);
+      Info.updateLocal(change);
+      this.updatePropsByLocal();
+    } else {
+      const password = data.get('password');
+      if (password === data.get('re_password')) {
+        this.props.onEdit({ old_password: data.get('old_password'), password });
+      } else {
+        this.setState({ mess_repassword: 'Mật khẩu nhập lại không khớp !' });
+        return;
+      }
     }
-    Info.updateLocal(change);
-    this.updatePropsByLocal();
     this.props.history.push('/info');
   }
 
@@ -66,7 +88,8 @@ class Info extends React.Component {
                   <Form name="fullname" onSubmit={this.handleSubmit}>
                     <Row>
                       <Col><Form.Control name="fullname" defaultValue={this.props.user.fullname} type="text"></Form.Control></Col>
-                      <Col><Button type="submit">Lưu</Button></Col>
+                      <Col sm={4}><Button type="submit">Lưu thay đổi</Button></Col>
+                      <Col sm={2}><Button variant="light" onClick={this.handleCancel}>Hủy</Button></Col>
                     </Row>
                   </Form>
                 ) : (
@@ -89,7 +112,8 @@ class Info extends React.Component {
                   <Form name="email" onSubmit={this.handleSubmit}>
                     <Row>
                       <Col><Form.Control name="email" type="email" defaultValue={this.props.user.email}></Form.Control></Col>
-                      <Col><Button type="submit">Lưu</Button></Col>
+                      <Col sm={4}><Button type="submit">Lưu thay đổi</Button></Col>
+                      <Col sm={2}><Button variant="light" onClick={this.handleCancel}>Hủy</Button></Col>
                     </Row>
                   </Form>
                 ) : (
@@ -120,7 +144,8 @@ class Info extends React.Component {
                         />
                         <Form.Text>{ this.props.mess }</Form.Text>
                       </Col>
-                      <Col><Button type="submit">Lưu</Button></Col>
+                      <Col sm={4}><Button type="submit">Lưu thay đổi</Button></Col>
+                      <Col sm={2}><Button variant="light" onClick={this.handleCancel}>Hủy</Button></Col>
                     </Row>
                   </Form>
                 ) : (
@@ -143,18 +168,21 @@ class Info extends React.Component {
                   <Form name="password" onSubmit={this.handleSubmit}>
                     <Form.Group name="old_password">
                       <Form.Label>Mật khẩu cũ</Form.Label>
-                      <Form.Control type="password"></Form.Control>
+                      <Form.Control name="old_password" type="password"></Form.Control>
+                      <Form.Text>{ this.props.mess }</Form.Text>
                     </Form.Group>
                     <Form.Group>
                       <Form.Label name="password">Mật khẩu mới</Form.Label>
-                      <Form.Control type="password"></Form.Control>
+                      <Form.Control name="password" type="password"></Form.Control>
                     </Form.Group>
                     <Form.Group>
                       <Form.Label name="re_password">Nhập lại mật khẩu mới</Form.Label>
-                      <Form.Control type="password"></Form.Control>
+                      <Form.Control name="re_password" type="password"></Form.Control>
+                      <Form.Text>{ this.state.mess_repassword }</Form.Text>
                     </Form.Group>
                     <Form.Group>
-                      <Button type="submit">Lưu</Button>
+                      <Button type="submit">Lưu thay đổi</Button>
+                      <Button variant="light" href="/edit" onClick={this.handleCancel}>Hủy</Button>
                     </Form.Group>
                   </Form>
                 ) : (
@@ -180,6 +208,7 @@ const mapDispatchToProps = (dispatch) => ({
   onEdit: (data) => dispatch(actions.edit(data)),
   updateUser: (user) => dispatch(actions.loadProps(user)),
   onCheck: (username) => dispatch(actions.check(username)),
+  initMess: () => dispatch(actions.initMess()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Info);
