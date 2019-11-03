@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 
 function Square(props) {
-  const { color, value } = props;
-  const name = `square ${color ? 'win' : ''}`;
+  const { color, value, isNew } = props;
+  const name = `square ${color ? 'win' : ''} ${isNew ? 'new' : ''}`;
   return (
     <button type="button" className={name} onClick={() => props.onClick()}>
       {value}
@@ -15,11 +17,16 @@ function Square(props) {
 class Board extends React.Component {
   renderSquare(i) {
     const { props } = this;
+    let isNew = false;
+    if (i === props.newMove) {
+      isNew = true;
+    }
     return (
       <Square
         value={props.squares[i]}
         color={props.colors[i]}
-        onClick={() => props.onClick(i)}
+        isNew={isNew}
+        onClick={() => props.onPlace(i)}
       />
     );
   }
@@ -45,4 +52,15 @@ class Board extends React.Component {
   }
 }
 
-export default Board;
+const mapStateToProps = (state) => ({
+  winner: state.game.winner,
+  colors: state.game.colors,
+  squares: state.game.history[state.game.stepNumber].squares,
+  newMove: state.game.history[state.game.stepNumber].newMove,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onPlace: (index) => dispatch(actions.place(index)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Board);

@@ -91,7 +91,7 @@ class Game extends React.Component {
     const winner = this.calculateWinner(current);
 
     const moves = history.map((step, move) => {
-      const desc = move ? (`Go to move #${move}`) : 'Go to game start';
+      const desc = move ? (`Lượt đi #${move}`) : 'Bắt đầu';
       const cname = (move === stepNumber) ? 'selected' : '';
       return (
         <li key={move.id}>
@@ -103,24 +103,20 @@ class Game extends React.Component {
     let status;
     const { xIsNext, colors } = this.props;
     if (winner) {
-      status = `Winner: ${winner}`;
+      status = `Người thắng : ${winner}`;
     } else {
-      status = `Next player: ${xIsNext ? 'X' : 'O'}`;
+      status = `Lượt đi kế tiếp: ${xIsNext ? 'X' : 'O'}`;
     }
 
     return (
       <div className="game">
         <div className="game-board">
-          <Board
-            squares={current.squares}
-            colors={colors}
-            onClick={(i) => this.props.onPlace(i)}
-          />
+          <Board />
         </div>
-        <Button type="button" onClick={this.props.onReset.bind(this)}>
-          Replay
-        </Button>
         <div className="game-info">
+          <Button type="button" onClick={this.props.onReset.bind(this)}>
+            Chơi lại
+          </Button>
           <div>{status}</div>
           <ol>{moves}</ol>
         </div>
@@ -137,7 +133,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch, state) => ({
-  onPlace: (index) => dispatch(actions.place(index)),
   onReset: () => dispatch(actions.reset()),
   onJump: (step) => dispatch(actions.jumpTo(step)),
 });

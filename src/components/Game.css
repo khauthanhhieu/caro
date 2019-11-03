@@ -56,10 +56,15 @@ body {
   font-size: 25px;
 }
 
+.new {
+  color: blue;
+}
+
 .win {
   background-color: yellow;
   color : red
 }
+
 
 .selected {
   background: blue;
