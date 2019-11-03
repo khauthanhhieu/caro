@@ -11,16 +11,43 @@ import queryString from 'query-string';
 import * as actions from '../actions';
 
 class Info extends React.Component {
-  constructor(props) {
-    super(props);
-    // this.handleSubmit = this.handleSubmit.bind(this);
+  static updateLocal(change) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const key = Object.keys(change)[0];
+    user[key] = change[key];
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
 
-  // handleSubmit(event) {
-  //   event.preventDefault();
-  //   const data = new FormData(event.target);
-  // }
+  updatePropsByLocal() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    this.props.updateUser(user);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    const prop = event.target.name;
+
+    const change = { [prop]: data.get(prop) };
+    if (prop !== 'password') {
+      this.props.onEdit(change);
+    }
+    Info.updateLocal(change);
+    this.updatePropsByLocal();
+    this.props.history.push('/info');
+  }
+
+  handleChange(event) {
+    event.preventDefault();
+    const username = event.target.value;
+    this.props.onCheck(username);
+  }
 
   render() {
     const values = queryString.parse(this.props.location.search);
@@ -36,9 +63,9 @@ class Info extends React.Component {
             <Col>
               {
                 (edit === 'fullname') ? (
-                  <Form>
+                  <Form name="fullname" onSubmit={this.handleSubmit}>
                     <Row>
-                      <Col><Form.Control value={this.props.user.fullname} type="text"></Form.Control></Col>
+                      <Col><Form.Control name="fullname" defaultValue={this.props.user.fullname} type="text"></Form.Control></Col>
                       <Col><Button type="submit">Lưu</Button></Col>
                     </Row>
                   </Form>
@@ -59,9 +86,9 @@ class Info extends React.Component {
             <Col>
               {
                 (edit === 'email') ? (
-                  <Form onSubmit={this.handleSubmit}>
+                  <Form name="email" onSubmit={this.handleSubmit}>
                     <Row>
-                      <Col><Form.Control value={this.props.user.email} type="text"></Form.Control></Col>
+                      <Col><Form.Control name="email" type="email" defaultValue={this.props.user.email}></Form.Control></Col>
                       <Col><Button type="submit">Lưu</Button></Col>
                     </Row>
                   </Form>
@@ -82,9 +109,17 @@ class Info extends React.Component {
             <Col>
               {
                 (edit === 'username') ? (
-                  <Form>
+                  <Form name="username" onSubmit={this.handleSubmit}>
                     <Row>
-                      <Col><Form.Control value={this.props.user.username} type="text"></Form.Control></Col>
+                      <Col>
+                        <Form.Control
+                          name="username"
+                          defaultValue={this.props.user.username}
+                          type="text"
+                          onChange={this.handleChange}
+                        />
+                        <Form.Text>{ this.props.mess }</Form.Text>
+                      </Col>
                       <Col><Button type="submit">Lưu</Button></Col>
                     </Row>
                   </Form>
@@ -105,17 +140,17 @@ class Info extends React.Component {
             <Col>
               {
                 edit === 'password' ? (
-                  <Form>
-                    <Form.Group>
+                  <Form name="password" onSubmit={this.handleSubmit}>
+                    <Form.Group name="old_password">
                       <Form.Label>Mật khẩu cũ</Form.Label>
                       <Form.Control type="password"></Form.Control>
                     </Form.Group>
                     <Form.Group>
-                      <Form.Label>Mật khẩu mới</Form.Label>
+                      <Form.Label name="password">Mật khẩu mới</Form.Label>
                       <Form.Control type="password"></Form.Control>
                     </Form.Group>
                     <Form.Group>
-                      <Form.Label>Nhập lại mật khẩu mới</Form.Label>
+                      <Form.Label name="re_password">Nhập lại mật khẩu mới</Form.Label>
                       <Form.Control type="password"></Form.Control>
                     </Form.Group>
                     <Form.Group>
@@ -137,11 +172,14 @@ class Info extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  mess: state.auth.mess,
   user: state.auth.user,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onEdit: (data) => dispatch(actions.edit(data)),
+  updateUser: (user) => dispatch(actions.loadProps(user)),
+  onCheck: (username) => dispatch(actions.check(username)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Info);

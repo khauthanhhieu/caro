@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import {
-  PLACE, RESET, SET_WINNER, JUMP_TO, LOGIN, LOGOUT, REGISTER, EDIT, LOAD_PROPS,
+  PLACE, RESET, SET_WINNER, JUMP_TO, LOGIN, LOGOUT, REGISTER, EDIT, LOAD_PROPS, CHECK,
 } from './actionTypes';
 
 export function place(index) {
@@ -44,7 +44,9 @@ export function login(username, password) {
     } else {
       mess = 'Tên đăng nhập hoặc mật khẩu không đúng !';
     }
-    user.password = undefined;
+    if (user) {
+      user.password = undefined;
+    }
     dispatch({
       type: LOGIN, mess, token: result.token, user,
     });
@@ -70,9 +72,33 @@ export function register(user) {
 }
 
 export function edit(data) {
-  return { type: EDIT, data };
+  return async (dispatch) => {
+    const result = await fetch('/api/user/edit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        token: Cookies.get('access_token'),
+      },
+      body: JSON.stringify(data),
+    }).then((res) => res.json());
+    dispatch({ type: EDIT, mess: result.mess });
+  };
 }
 
 export function loadProps(user) {
   return { type: LOAD_PROPS, user };
+}
+
+export function check(username) {
+  return async (dispatch) => {
+    const result = await fetch('/api/user/check', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        token: Cookies.get('access_token'),
+      },
+      body: JSON.stringify({ username }),
+    }).then((res) => res.json());
+    dispatch({ type: CHECK, mess: result.mess });
+  };
 }
