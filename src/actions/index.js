@@ -11,8 +11,8 @@ export function reset() {
   return { type: RESET };
 }
 
-export function setWinner(winner) {
-  return { type: SET_WINNER, winner };
+export function setWinner(winner, line) {
+  return { type: SET_WINNER, winner, line };
 }
 
 export function jumpTo(step) {
