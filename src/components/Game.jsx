@@ -3,7 +3,9 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import {
+  Button, Row, Container, Col,
+} from 'react-bootstrap';
 import './Game.css';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
@@ -33,18 +35,22 @@ class Game extends React.Component {
     }
 
     return (
-      <div className="game">
-        <div className="game-board">
-          <Board />
-        </div>
-        <div className="game-info">
-          <Button type="button" onClick={this.props.onReset.bind(this)}>
-            Chơi lại
-          </Button>
-          <div>{status}</div>
-          <ol>{moves}</ol>
-        </div>
-      </div>
+      <Container>
+        <Row>
+          <Col md={8}>
+            <Board />
+          </Col>
+          <Col>
+            <Button type="button" onClick={this.props.onReset.bind(this)}>
+              Chơi lại
+            </Button>
+            <div>{status}</div>
+            <div className="scroll-y">
+              <ol>{moves}</ol>
+            </div>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
