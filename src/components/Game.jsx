@@ -9,7 +9,7 @@ import {
 import './Game.css';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import Board from './Board';
+import AutoBoard from './AutoBoard';
 
 class Game extends React.Component {
   render() {
@@ -38,7 +38,7 @@ class Game extends React.Component {
       <Container>
         <Row>
           <Col md={8}>
-            <Board />
+            <AutoBoard />
           </Col>
           <Col>
             <Button type="button" onClick={this.props.onReset.bind(this)}>

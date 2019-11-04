@@ -16,14 +16,38 @@ function Square(props) {
 }
 
 
-class Board extends React.Component {
-  onClickSquare(i) {
+class AutoBoard extends React.Component {
+  static timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async onClickSquare(i) {
     if (this.props.winner) {
       return;
     }
-
+    // lượt của người
     this.props.onPlace(i);
     const { winner, line } = this.calculateWinner(i);
+    if (winner) {
+      this.props.setWinner(winner, line);
+    }
+
+    // lượt của máy
+    await AutoBoard.timeout(500);
+    this.autoPlace();
+  }
+
+  autoPlace() {
+    let index;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      index = Math.floor(Math.random() * 400);
+      if (!this.props.squares[index]) {
+        break;
+      }
+    }
+    this.props.onPlace(index);
+    const { winner, line } = this.calculateWinner(index);
     if (winner) {
       this.props.setWinner(winner, line);
     }
@@ -138,4 +162,4 @@ const mapDispatchToProps = (dispatch) => ({
   setWinner: (winner, line) => dispatch(actions.setWinner(winner, line)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Board);
+export default connect(mapStateToProps, mapDispatchToProps)(AutoBoard);
