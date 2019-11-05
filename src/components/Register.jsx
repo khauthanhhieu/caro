@@ -13,7 +13,7 @@ class Register extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
     const user = {
@@ -22,7 +22,10 @@ class Register extends React.Component {
       username: data.get('username'),
       password: data.get('password'),
     };
-    this.props.onRegister(user);
+    await this.props.onRegister(user);
+    if (!this.props.mess) {
+      this.props.history.push('/login')
+    }
   }
 
   render() {
